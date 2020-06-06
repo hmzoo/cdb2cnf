@@ -1,0 +1,84 @@
+
+spanning-tree hello-time 1
+spanning-tree max-age 6
+spanning-tree forward-time 4
+interface range ethernet 1/e48,1/g2
+switchport mode trunk
+exit
+vlan database
+vlan 1117,1217,1317,1417,1517,1617,1717
+exit
+interface range ethernet 1/e(19,37),2/e(11,14,23),3/e(2,19)
+switchport access vlan 1117
+exit
+interface range ethernet 1/e48,1/g2
+switchport trunk allowed vlan add 1117
+exit
+interface range ethernet 1/e(11-18,22,24-30,33-36,38-40,47),2/e(1-4,7-9,12-13
+,17-18,20-21,24),3/e(3-9,11-16,18,23-24)
+switchport access vlan 1217
+exit
+interface ethernet 1/g2
+switchport trunk allowed vlan add 1217
+exit
+interface range ethernet 1/e(1-2,4-10,20-21,23,31-32,41-43),2/e(5-6,10,15,19)
+,3/e(1,10,17,20-21)
+switchport access vlan 1317
+exit
+interface ethernet 1/g2
+switchport trunk allowed vlan add 1317
+exit
+interface range ethernet 1/e(3,44-46),2/e(16,22),3/e22
+switchport access vlan 1417
+exit
+interface ethernet 1/g2
+switchport trunk allowed vlan add 1417
+exit
+interface ethernet 1/g2
+switchport trunk allowed vlan add 1517
+exit
+interface ethernet 1/g2
+switchport trunk allowed vlan add 1617
+exit
+interface ethernet 1/g2
+switchport trunk allowed vlan add 1717
+exit
+interface vlan 1117
+name ADMINISTRATIF
+exit
+interface vlan 1217
+name ELEVES
+exit
+interface vlan 1317
+name PROFS
+exit
+interface vlan 1417
+name IMPRIMANTES
+exit
+interface vlan 1517
+name MANAGEMENT
+exit
+interface vlan 1617
+name DOMOTIQUE
+exit
+interface vlan 1717
+name INVITE
+exit
+interface vlan 1517
+ip address 172.17.83.31 255.255.255.128
+exit
+ip default-gateway 172.17.83.126
+hostname FORESTERIE-LTSB-N2-1
+username admin password d88dcbb1ec9bb040c2db93ab0bebc704 level 15 encrypted
+ip ssh server
+snmp-server community nagiosReadOnly ro view Default
+no ip http server
+clock timezone +1
+clock summer-time recurring eu zone fr
+clock source sntp
+sntp unicast client enable
+sntp unicast client poll
+sntp anycast client enable
+sntp broadcast client enable
+sntp server 10.72.222.136
+sntp server 172.17.83.1
