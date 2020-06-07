@@ -16,14 +16,15 @@ var builder cdb2cnf.ConfBuilder
 
 func main() {
   flag.Usage = func() {
-        fmt.Println("\ncdb2cnf [FICHIER_CDB] [-f FORMAT] [-w REPERTOIRE] ")
+        fmt.Println("\ncdb2cnf  [-f FORMAT] [-w [-o REPERTOIRE]] [FICHIER_CDB]")
         flag.PrintDefaults()
     }
   flag.StringVar(&format,"f","8000S", "type de formatage : 8000S , FS980 ")
-  writeFlag  :=flag.String("w",".", "ecriture des fichiers dans unrepertoire ")
+  writeFlag  :=flag.Bool("w",false, "ecriture des fichiers  ")
+  outputFlag  :=flag.String("o",".", "choix du repertoire ")
   flag.Parse()
   format =strings.ToTitle(format)
-
+ 
 
   if filename := flag.Arg(0); filename != "" {
 	   err,ports:= cdb2cnf.LoadCDBPNC (filename)
@@ -49,8 +50,8 @@ func main() {
       builder= cdb2cnf.T_8000S{}
   }
 
-if(*writeFlag != ""){
-  outputdir=*writeFlag
+if(*writeFlag ){
+  outputdir=*outputFlag
   save(builder)
 }else{
   print(builder)
@@ -77,6 +78,10 @@ func print(builder cdb2cnf.ConfBuilder){
 }
 
 func save(builder cdb2cnf.ConfBuilder){
+  if err := os.MkdirAll(outputdir, 0777 ); err != nil {
+    fmt.Println(err)
+    os.Exit(1)
+	}
   for k,v := range confs {
     data := cdb2cnf.Build(v,builder)
     filename :=filepath.Join(outputdir, k+"_INT.txt")
