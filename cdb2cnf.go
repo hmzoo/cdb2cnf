@@ -21,10 +21,10 @@ func main() {
     }
   flag.StringVar(&format,"f","8000S", "type de formatage : 8000S , FS980 ")
   writeFlag  :=flag.Bool("w",false, "ecriture des fichiers  ")
-  outputFlag  :=flag.String("o",".", "choix du repertoire ")
+  outputFlag  :=flag.String("o",".", "choix du repertoire d'ecriture ")
   flag.Parse()
   format =strings.ToTitle(format)
- 
+
 
   if filename := flag.Arg(0); filename != "" {
 	   err,ports:= cdb2cnf.LoadCDBPNC (filename)
